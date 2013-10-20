@@ -4,7 +4,7 @@ Go library which provides support for interacting with Google Directions API
 
 ```sh
 go get https://github.com/bradrydzewski/go.stripe
-``
+```
 
 ## Example
 

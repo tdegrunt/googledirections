@@ -9,17 +9,16 @@ import (
 
 // Things to avoid
 const (
-	AvoidToll = "tolls"
+	AvoidToll     = "tolls"
 	AvoidHighways = "highways"
 )
 
 // Travel Modes
 const (
-	TravelModeDriving = "driving"
-	TravelModeWalking = "walking"
+	TravelModeDriving   = "driving"
+	TravelModeWalking   = "walking"
 	TravelModeBicycling = "bicycling"
-	TravelModeTransit = "transit"
-	
+	TravelModeTransit   = "transit"
 )
 
 // Location represents a latitude and longitude combination
@@ -83,14 +82,14 @@ type Route struct {
 
 // Represents a complete directions result
 type Directions struct {
-	origin string
+	origin      string
 	destination string
-	baseURL string
-	language string
+	baseURL     string
+	language    string
 	alternative bool
-	sensor bool
-	mode string
-	avoid string
+	sensor      bool
+	mode        string
+	avoid       string
 	// Possible routes
 	Routes []Route
 	// Status of the response
@@ -109,27 +108,27 @@ func NewDirections(origin, destination string) (*Directions, error) {
 
 	d.origin = origin
 	d.destination = destination
-	
+
 	return &d, nil
 }
 
 // Sets the travel mode (driving/walking/bicycling/transit)
-func (d *Directions)SetTravelMode(mode string) {
+func (d *Directions) SetTravelMode(mode string) {
 	d.mode = mode
 }
 
 // Sets what to avoid (tolls/highways)
-func (d *Directions)SetAvoid(avoid string) {
+func (d *Directions) SetAvoid(avoid string) {
 	d.avoid = avoid
 }
 
 // Sets alternatives
-func (d *Directions)SetAllowAlternatives(allow bool) {
+func (d *Directions) SetAllowAlternatives(allow bool) {
 	d.alternative = allow
 }
 
 // Retrieves the directions results from Google
-func (d *Directions)Get() error {
+func (d *Directions) Get() error {
 	v := url.Values{}
 	v.Set("origin", d.origin)
 	v.Add("destination", d.destination)
@@ -155,7 +154,12 @@ func (d *Directions)Get() error {
 	return nil
 }
 
-// Returns the distance for the first route and it's first leg 
-func (d *Directions)GetDistance() int {
+// Returns the distance (in meters) for the first route and it's first leg
+func (d *Directions) GetDistance() int {
 	return d.Routes[0].Legs[0].Distance.Value
+}
+
+// Returns the duration (in seconds) for the first route and it's first leg
+func (d *Directions) GetDuration() int {
+	return d.Routes[0].Legs[0].Duration.Value
 }
